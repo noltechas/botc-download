@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>BOTC — Download</title>
+  <meta name="description" content="Download BOTC, a Storyteller companion for Blood on the Clocktower." />
+  <meta name="color-scheme" content="dark" />
+  <link rel="icon" href="assets/app-icon.png" />
+  <style>
+    :root {
+      --bg: #0a0812;
+      --bg-2: #140f22;
+      --ink: #ede7ff;
+      --muted: #9a8fc0;
+      --faint: #6b6190;
+      --accent: #7a57c4;
+      --accent-2: #b59bff;
+      --gold: #d8b15a;
+      --card: rgba(255, 255, 255, 0.035);
+      --card-line: rgba(181, 155, 255, 0.18);
+      --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background:
+        radial-gradient(1200px 700px at 50% -10%, rgba(122, 87, 196, 0.28), transparent 60%),
+        radial-gradient(900px 600px at 90% 110%, rgba(216, 177, 90, 0.08), transparent 55%),
+        var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: clamp(1.5rem, 5vw, 4rem) 1.25rem 2.5rem;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { width: 100%; max-width: 880px; }
+
+    /* ---- Hero ---- */
+    .hero { text-align: center; margin-bottom: clamp(2rem, 6vw, 3.5rem); }
+    .crest {
+      width: clamp(96px, 22vw, 132px);
+      height: clamp(96px, 22vw, 132px);
+      border-radius: 26%;
+      margin: 0 auto 1.25rem;
+      display: block;
+      box-shadow: 0 0 0 1px var(--card-line), 0 18px 50px -18px rgba(122, 87, 196, 0.8);
+    }
+    h1 {
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: clamp(2.4rem, 9vw, 3.8rem);
+      letter-spacing: 0.14em;
+      margin: 0 0 0.4rem;
+      text-transform: uppercase;
+      background: linear-gradient(180deg, #fff 0%, var(--accent-2) 120%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .tagline {
+      color: var(--muted);
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: clamp(1rem, 3.4vw, 1.2rem);
+      margin: 0;
+      letter-spacing: 0.01em;
+    }
+    .version { color: var(--faint); font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase; margin-top: 0.9rem; }
+
+    /* ---- Platform cards ---- */
+    .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+    @media (max-width: 620px) { .cards { grid-template-columns: 1fr; } }
+
+    .card {
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--card-line);
+      border-radius: 18px;
+      padding: 1.6rem 1.4rem 1.7rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      backdrop-filter: blur(6px);
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    }
+    .card.detected {
+      border-color: var(--accent-2);
+      box-shadow: 0 0 0 1px var(--accent-2), 0 22px 60px -28px rgba(122, 87, 196, 0.9);
+    }
+    .badge {
+      position: absolute; top: -0.7rem; left: 50%; transform: translateX(-50%);
+      background: var(--accent); color: #fff; font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.16em; text-transform: uppercase; padding: 0.32rem 0.7rem;
+      border-radius: 999px; white-space: nowrap; display: none;
+    }
+    .card.detected .badge { display: block; }
+
+    .platform { font-family: var(--serif); font-size: 1.35rem; letter-spacing: 0.05em; margin: 0.2rem 0 0.2rem; }
+    .platform-sub { color: var(--faint); font-size: 0.82rem; margin: 0 0 1.15rem; min-height: 1.1em; }
+
+    .qr-box {
+      background: #fff; border-radius: 12px; padding: 12px;
+      width: 168px; height: 168px; display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.15rem;
+    }
+    .qr-box svg { width: 100%; height: 100%; display: block; }
+    .qr-box.empty {
+      background: rgba(255,255,255,0.04); border: 1px dashed var(--card-line);
+      color: var(--faint); font-size: 0.78rem; line-height: 1.4; padding: 1rem;
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      width: 100%; padding: 0.9rem 1rem; border-radius: 12px; border: 0;
+      font-size: 1rem; font-weight: 700; letter-spacing: 0.02em; cursor: pointer;
+      text-decoration: none; transition: transform 0.12s, filter 0.2s;
+      background: linear-gradient(180deg, var(--accent-2), var(--accent));
+      color: #160f28;
+    }
+    .btn:hover { filter: brightness(1.08); }
+    .btn:active { transform: translateY(1px); }
+    .btn[aria-disabled="true"] {
+      background: rgba(255,255,255,0.06); color: var(--faint); cursor: default;
+      pointer-events: none; box-shadow: inset 0 0 0 1px var(--card-line);
+    }
+    .hint { color: var(--faint); font-size: 0.74rem; margin-top: 0.7rem; line-height: 1.4; }
+
+    /* ---- Footer ---- */
+    footer {
+      margin-top: clamp(2.5rem, 7vw, 4rem); text-align: center; max-width: 560px;
+      color: var(--faint); font-size: 0.78rem; line-height: 1.6;
+    }
+    footer a { color: var(--muted); }
+    .disclaimer { margin-top: 0.9rem; color: var(--faint); opacity: 0.85; font-size: 0.72rem; }
+    .sep { color: var(--card-line); margin: 0 0.5rem; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <img class="crest" src="assets/app-icon.png" alt="" />
+      <h1 id="app-name">BOTC</h1>
+      <p class="tagline" id="tagline">A Storyteller companion for Blood on the Clocktower</p>
+      <div class="version" id="version"></div>
+    </header>
+
+    <main class="cards">
+      <section class="card" id="card-ios">
+        <span class="badge">Your device</span>
+        <h2 class="platform">iPhone &amp; iPad</h2>
+        <p class="platform-sub">via the App Store</p>
+        <div class="qr-box" id="qr-ios"></div>
+        <a class="btn" id="btn-ios" href="#">Open in App Store</a>
+        <p class="hint" id="hint-ios">On a computer? Scan the code with your iPhone camera.</p>
+      </section>
+
+      <section class="card" id="card-android">
+        <span class="badge">Your device</span>
+        <h2 class="platform">Android</h2>
+        <p class="platform-sub">direct download (.apk)</p>
+        <div class="qr-box" id="qr-android"></div>
+        <a class="btn" id="btn-android" href="#">Download APK</a>
+        <p class="hint" id="hint-android">After downloading, tap the file and allow install from this source.</p>
+      </section>
+    </main>
+
+    <footer>
+      Trouble installing? Email <a id="support" href="#">support</a>.
+      <span class="sep">·</span>
+      <a href="privacy.html">Privacy Policy</a>
+      <p class="disclaimer">
+        BOTC is an unofficial fan-made companion tool. It is not affiliated with,
+        endorsed by, or sponsored by Steven Medway or The Pandemonium Institute.
+        Blood on the Clocktower is a trademark of Steven Medway.
+      </p>
+    </footer>
+  </div>
+
+  <script src="vendor/qrcode.min.js"></script>
+  <script src="config.js"></script>
+  <script>
+    (function () {
+      var cfg = window.BOTC_CONFIG || {};
+
+      // ---- Header content from config ----
+      if (cfg.appName) document.getElementById('app-name').textContent = cfg.appName;
+      if (cfg.tagline) document.getElementById('tagline').textContent = cfg.tagline;
+      document.getElementById('version').textContent = cfg.version ? 'Version ' + cfg.version : '';
+      var support = document.getElementById('support');
+      if (cfg.supportEmail) {
+        support.href = 'mailto:' + cfg.supportEmail + '?subject=' +
+          encodeURIComponent((cfg.appName || 'BOTC') + ' install help');
+        support.textContent = cfg.supportEmail;
+      }
+
+      // ---- QR rendering (qrcode-generator, MIT, vendored) ----
+      function renderQR(el, text) {
+        try {
+          var qr = qrcode(0, 'M');
+          qr.addData(text);
+          qr.make();
+          el.innerHTML = qr.createSvgTag({ cellSize: 6, margin: 1, scalable: true });
+        } catch (e) {
+          el.classList.add('empty');
+          el.textContent = 'Could not render QR.';
+        }
+      }
+
+      function setup(opts) {
+        var card = document.getElementById(opts.cardId);
+        var qrEl = document.getElementById(opts.qrId);
+        var btn = document.getElementById(opts.btnId);
+        var url = (opts.url || '').trim();
+
+        if (url) {
+          renderQR(qrEl, url);
+          btn.href = url;
+          if (opts.download) btn.setAttribute('download', '');
+          // open App Store / external links in a new tab from desktop
+          if (!opts.download) { btn.target = '_blank'; btn.rel = 'noopener'; }
+        } else {
+          qrEl.classList.add('empty');
+          qrEl.textContent = opts.comingSoon;
+          btn.textContent = 'Coming soon';
+          btn.setAttribute('aria-disabled', 'true');
+          btn.href = '#';
+        }
+        return card;
+      }
+
+      var iosCard = setup({
+        cardId: 'card-ios', qrId: 'qr-ios', btnId: 'btn-ios',
+        url: cfg.iosUrl, download: false,
+        comingSoon: 'iOS link goes live once the app clears App Review.'
+      });
+      var androidCard = setup({
+        cardId: 'card-android', qrId: 'qr-android', btnId: 'btn-android',
+        url: cfg.androidUrl, download: true,
+        comingSoon: 'Android build is on the way.'
+      });
+
+      // ---- Highlight the visitor's platform ----
+      var ua = navigator.userAgent || '';
+      var isIOS = /iPad|iPhone|iPod/.test(ua) ||
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      var isAndroid = /android/i.test(ua);
+      if (isIOS) iosCard.classList.add('detected');
+      else if (isAndroid) androidCard.classList.add('detected');
+    })();
+  </script>
+</body>
+</html>

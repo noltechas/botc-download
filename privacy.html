@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>BOTC — Privacy Policy</title>
+  <meta name="color-scheme" content="dark" />
+  <link rel="icon" href="assets/app-icon.png" />
+  <style>
+    :root {
+      --bg: #0a0812; --ink: #ede7ff; --muted: #b6abda; --faint: #8478a8;
+      --accent-2: #b59bff; --card-line: rgba(181,155,255,0.18);
+      --serif: "Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background:
+        radial-gradient(1100px 600px at 50% -10%, rgba(122,87,196,0.22), transparent 60%), var(--bg);
+      color: var(--ink); font-family: var(--sans); line-height: 1.7;
+      padding: clamp(1.5rem, 5vw, 3.5rem) 1.25rem 4rem; -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 720px; margin: 0 auto; }
+    a.back { color: var(--accent-2); text-decoration: none; font-size: 0.85rem; letter-spacing: 0.04em; }
+    a.back:hover { text-decoration: underline; }
+    h1 {
+      font-family: var(--serif); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      font-size: clamp(1.8rem, 6vw, 2.6rem); margin: 1.2rem 0 0.3rem;
+    }
+    .updated { color: var(--faint); font-size: 0.82rem; letter-spacing: 0.06em; margin: 0 0 2rem; }
+    h2 {
+      font-family: var(--serif); font-weight: 600; letter-spacing: 0.03em;
+      font-size: 1.25rem; margin: 2.2rem 0 0.5rem; color: var(--accent-2);
+    }
+    p, li { color: var(--muted); }
+    strong { color: var(--ink); }
+    ul { padding-left: 1.2rem; }
+    li { margin: 0.35rem 0; }
+    a { color: var(--accent-2); }
+    .note {
+      border-left: 2px solid var(--card-line); padding: 0.2rem 0 0.2rem 1rem;
+      color: var(--faint); font-size: 0.9rem; margin: 1.5rem 0;
+    }
+    footer { margin-top: 3rem; color: var(--faint); font-size: 0.78rem; line-height: 1.6; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="index.html">&larr; Back to download</a>
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: June 18, 2026</p>
+
+    <p>
+      <strong id="appname">BOTC</strong> ("the App") is an unofficial fan-made companion tool for
+      the tabletop game <em>Blood on the Clocktower</em>. This policy explains what information the
+      App handles and why. The App is designed to be played with a small group of people you already
+      know, and it collects as little personal information as possible.
+    </p>
+
+    <h2>Information the App uses</h2>
+    <ul>
+      <li>
+        <strong>Camera.</strong> With your permission, the App uses your device camera <em>only</em>
+        to scan a game's QR code so you can join a session. Camera images are processed on your
+        device and are not stored or transmitted.
+      </li>
+      <li>
+        <strong>Display name and (optional) profile photo.</strong> If you choose to set a name or
+        photo, these are shared with the other players in your game so they can recognize you. A
+        profile photo is provided by you; you can skip it.
+      </li>
+      <li>
+        <strong>Gameplay data.</strong> Your role, actions, votes, and other in-game state are
+        synced among the devices in your game so the game can run. This data exists only to operate
+        the current game.
+      </li>
+      <li>
+        <strong>Notifications.</strong> If you allow notifications, the App may register a device
+        push token so it can alert you to game events (for example, when it is your turn). The token
+        identifies your device for delivery and is not used to track you.
+      </li>
+    </ul>
+    <p>
+      The App does <strong>not</strong> require you to create an account, and does not ask for your
+      email address, phone number, or contacts.
+    </p>
+
+    <h2>How information is stored and shared</h2>
+    <ul>
+      <li>
+        Game data is transmitted and temporarily stored using <strong>Supabase</strong>, a
+        third-party hosting service, so that the devices in a game can stay in sync. See the
+        <a href="https://supabase.com/privacy" target="_blank" rel="noopener">Supabase Privacy Policy</a>.
+      </li>
+      <li>
+        Push notifications are delivered through the <strong>Expo</strong> push service and the
+        platform notification services (Apple Push Notification service / Firebase Cloud Messaging).
+        See the <a href="https://expo.dev/privacy" target="_blank" rel="noopener">Expo Privacy Policy</a>.
+      </li>
+      <li>
+        Gameplay data is retained only as long as needed to run games and is not sold, rented, or
+        used for advertising.
+      </li>
+    </ul>
+
+    <h2>What the App does not do</h2>
+    <ul>
+      <li>No advertising, and no third-party advertising or tracking SDKs.</li>
+      <li>No sale or sharing of your information for marketing.</li>
+      <li>No location tracking.</li>
+    </ul>
+
+    <h2>Children</h2>
+    <p>
+      The App is not directed to children under 13 and does not knowingly collect personal
+      information from them.
+    </p>
+
+    <h2>Changes</h2>
+    <p>
+      This policy may be updated from time to time. Material changes will be reflected on this page
+      with a new "last updated" date.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Questions about this policy? Email <a id="contact" href="#">the developer</a>.
+    </p>
+
+    <footer>
+      BOTC is an unofficial fan tool and is not affiliated with, endorsed by, or sponsored by
+      Steven Medway or The Pandemonium Institute. Blood on the Clocktower is a trademark of
+      Steven Medway.
+    </footer>
+  </div>
+
+  <script src="config.js"></script>
+  <script>
+    (function () {
+      var cfg = window.BOTC_CONFIG || {};
+      if (cfg.appName) document.getElementById('appname').textContent = cfg.appName;
+      var c = document.getElementById('contact');
+      if (cfg.supportEmail) {
+        c.href = 'mailto:' + cfg.supportEmail + '?subject=' +
+          encodeURIComponent((cfg.appName || 'BOTC') + ' privacy question');
+        c.textContent = cfg.supportEmail;
+      }
+    })();
+  </script>
+</body>
+</html>
