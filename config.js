@@ -24,7 +24,7 @@ window.BOTC_CONFIG = {
   version: '1.0.0',
 
   iosUrl: '',
-  androidUrl: '',
+  androidUrl: 'https://github.com/noltechas/botc-download/releases/latest/download/botc.apk',
 
   // Shown in the footer and on the privacy page. Use an address you check.
   supportEmail: 'chas.nolte@aviture.us.com',
