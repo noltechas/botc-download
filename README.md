@@ -25,7 +25,7 @@ the page before either store link exists.
 
 Repo **Settings → Pages → Build and deployment → Source: "Deploy from a branch"**, branch
 `main`, folder `/ (root)`. Save. Your page goes live at
-`https://<your-username>.github.io/<repo-name>/` within a minute.
+`https://noltechas.github.io/botc-download/` within a minute.
 
 (The empty `.nojekyll` file tells Pages to serve everything as-is.)
 
@@ -35,7 +35,7 @@ The Android button downloads an `.apk` file directly. Easiest place to host it i
 **GitHub Release on this repo** (Releases → Draft a new release → attach the `.apk`):
 
 ```
-https://github.com/<you>/<repo>/releases/latest/download/botc.apk
+https://github.com/noltechas/botc-download/releases/latest/download/botc.apk
 ```
 
 Put that URL in `androidUrl`. Re-upload the asset (same filename) each time you ship a new
