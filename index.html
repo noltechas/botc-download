@@ -73,6 +73,20 @@
     }
     .version { color: var(--faint); font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase; margin-top: 0.9rem; }
 
+    /* ---- Game invite banner (shown when ?game=CODE is present) ---- */
+    .invite {
+      text-align: center; max-width: 460px; margin: 0 auto clamp(1.6rem, 5vw, 2.6rem);
+      background: rgba(122, 87, 196, 0.10); border: 1px solid var(--card-line);
+      border-radius: 18px; padding: 1.4rem 1.3rem 1.5rem;
+    }
+    .invite-eyebrow { color: var(--muted); font-size: 0.76rem; letter-spacing: 0.16em; text-transform: uppercase; margin: 0 0 0.5rem; }
+    .invite-code {
+      font-family: var(--serif); font-size: clamp(2rem, 9vw, 2.8rem); letter-spacing: 0.3em;
+      color: var(--gold); text-shadow: 0 0 18px rgba(216, 177, 90, 0.25); margin: 0 0 1.1rem; padding-left: 0.3em;
+    }
+    .invite-open { max-width: 320px; margin: 0 auto; }
+    .invite-help { color: var(--faint); font-size: 0.78rem; line-height: 1.5; margin: 0.85rem auto 0; max-width: 340px; }
+
     /* ---- Platform cards ---- */
     .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
     @media (max-width: 620px) { .cards { grid-template-columns: 1fr; } }
@@ -151,6 +165,15 @@
       <div class="version" id="version"></div>
     </header>
 
+    <section class="invite" id="invite" hidden>
+      <p class="invite-eyebrow">You're invited to a game</p>
+      <div class="invite-code" id="invite-code"></div>
+      <a class="btn invite-open" id="invite-open" href="#">Open in the BOTC app</a>
+      <p class="invite-help">
+        Already installed? Tap above. New here? Install below, then open BOTC and enter this code.
+      </p>
+    </section>
+
     <main class="cards">
       <section class="card" id="card-ios">
         <span class="badge">Your device</span>
@@ -198,6 +221,17 @@
         support.href = 'mailto:' + cfg.supportEmail + '?subject=' +
           encodeURIComponent((cfg.appName || 'BOTC') + ' install help');
         support.textContent = cfg.supportEmail;
+      }
+
+      // ---- Game invite: ?game=CODE (the QR people scan with a normal camera) ----
+      var gameCode = null;
+      try { gameCode = new URLSearchParams(window.location.search).get('game'); } catch (e) {}
+      if (gameCode) gameCode = gameCode.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8);
+      if (gameCode) {
+        document.getElementById('invite-code').textContent = gameCode;
+        document.getElementById('invite-open').href = 'botc://join?game=' + encodeURIComponent(gameCode);
+        document.getElementById('invite').hidden = false;
+        document.title = 'Join game ' + gameCode + ' — ' + (cfg.appName || 'BOTC');
       }
 
       // ---- QR rendering (qrcode-generator, MIT, vendored) ----
