@@ -132,12 +132,14 @@
       cursor: pointer; overflow: hidden;
       transition: filter 0.2s, transform 0.12s, box-shadow 0.2s, border-color 0.2s;
     }
-    .btn svg { width: 1.25em; height: 1.25em; flex: none; fill: currentColor; }
+    /* The label is all-caps, which has no descenders, so its optical centre sits above the
+       centre of the line box that flex aligns to. Centred honestly, the mark reads as having
+       slipped down; the nudge puts it back on the cap height. */
+    .btn svg {
+      width: 1.25em; height: 1.25em; flex: none; fill: currentColor;
+      transform: translateY(-0.13em);
+    }
     .btn:active { transform: translateY(1px); }
-    /* `display: flex` above beats the UA stylesheet's `[hidden] { display: none }`, so without
-       this the deep-link button shows on every visit — including the ones with no game code,
-       where it links nowhere. */
-    .btn[hidden] { display: none; }
 
     /* Solid gold plate, with a struck highlight along its top edge so it reads as pressed
        metal rather than a flat fill. */
@@ -195,11 +197,6 @@
     <div class="rule" aria-hidden="true"><span>◆</span></div>
 
     <div class="actions">
-      <!-- Only when the page was opened with ?game=CODE. The code itself is not printed:
-           the deep link already carries it, and this page is reached by scanning the game's
-           own QR, so the player never has to read or retype it. -->
-      <a class="btn is-solid" id="invite-open" href="#" hidden>Open in the app</a>
-
       <a class="btn" id="btn-ios" href="#">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.42 2.2-1.12 3.02-.85.99-2.24 1.76-3.38 1.67-.14-1.1.4-2.26 1.06-3.03.75-.87 2.06-1.55 3.44-1.66zM20.9 17.4c-.55 1.27-.81 1.84-1.52 2.96-.99 1.56-2.39 3.5-4.12 3.51-1.54.02-1.94-1-4.03-.99-2.09.01-2.53 1.01-4.07.99-1.73-.02-3.05-1.77-4.04-3.33C.35 16.2-.02 11.1 1.66 8.44c1.2-1.9 3.09-3.01 4.87-3.01 1.81 0 2.95 1 4.45 1 1.45 0 2.34-1 4.43-1 1.58 0 3.26.86 4.45 2.35-3.91 2.14-3.27 7.72 1.04 9.62z"/></svg>
         <span>Open in App Store</span>
@@ -244,17 +241,8 @@
         host.appendChild(frag);
       })();
 
-      // ---- Game invite: ?game=CODE (the QR people scan with a normal camera) ----
-      var gameCode = null;
-      try { gameCode = new URLSearchParams(window.location.search).get('game'); } catch (e) {}
-      if (gameCode) gameCode = gameCode.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8);
-      if (gameCode) {
-        var open = document.getElementById('invite-open');
-        open.href = 'botc://join?game=' + encodeURIComponent(gameCode);
-        open.hidden = false;
-        document.title = 'Join game ' + gameCode + ' — ' + (cfg.appName || 'Blood on the Clocktower');
-      }
-
+      // The join QR appends ?game=CODE. Nothing on this page reads it: the page has one job,
+      // which is to install the app, and the in-app scanner joins the game directly.
       function setup(btn, url, isDownload, soon) {
         url = (url || '').trim();
         if (!url) {
