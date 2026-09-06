@@ -19,11 +19,10 @@
  *              (See README.md → "Hosting the Android APK".)
  */
 window.BOTC_CONFIG = {
-  appName: 'BOTC',
-  tagline: 'A Storyteller companion for Blood on the Clocktower',
+  appName: 'Blood on the Clocktower',
   version: '1.0.0',
 
-  iosUrl: '',
+  iosUrl: 'https://apps.apple.com/app/id6781914638',
   androidUrl: 'https://github.com/noltechas/botc-download/releases/latest/download/botc.apk',
 
   // Shown in the footer and on the privacy page. Use an address you check.

@@ -3,207 +3,249 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>BOTC — Download</title>
-  <meta name="description" content="Download BOTC, a Storyteller companion for Blood on the Clocktower." />
+  <title>Blood on the Clocktower — Download</title>
+  <meta name="description" content="Download the Blood on the Clocktower companion app for iPhone, iPad and Android." />
   <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#08090f" />
   <link rel="icon" href="assets/app-icon.png" />
+
+  <!-- The app's own faces: Cinzel for display, IM Fell English for body. Matches the
+       gothic theme bundle in @botc/shared (fontDisplay / fontBody). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cinzel+Decorative:wght@700&family=IM+Fell+English:ital@0;1&display=swap"
+    rel="stylesheet" />
+
   <style>
+    /* Palette lifted verbatim from GOTHIC_TOKENS in @botc/shared so this page and the app
+       are the same night. Do not hand-pick new colours here — copy them from the token file. */
     :root {
-      --bg: #0a0812;
-      --bg-2: #140f22;
-      --ink: #ede7ff;
-      --muted: #9a8fc0;
-      --faint: #6b6190;
-      --accent: #7a57c4;
-      --accent-2: #b59bff;
-      --gold: #d8b15a;
-      --card: rgba(255, 255, 255, 0.035);
-      --card-line: rgba(181, 155, 255, 0.18);
-      --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
-      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --app-bg: #08090f;
+      --ink: #120d0a;
+      --parchment: #e8dcc0;
+      --bone: #f3ecdd;
+      --text: #f3ecdd;
+      --muted: #9a958c;
+      --faint: #6b6660;
+      --gold: #d9a441;
+      --gold-light: #f1cd76;
+      --gold-dark: #a87a28;
+      --line: rgba(217, 164, 65, 0.22);
+      --display: 'Cinzel', 'Times New Roman', serif;
+      --deco: 'Cinzel Decorative', 'Cinzel', serif;
+      --body: 'IM Fell English', Georgia, serif;
     }
+
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; }
+
     body {
-      background:
-        radial-gradient(1200px 700px at 50% -10%, rgba(122, 87, 196, 0.28), transparent 60%),
-        radial-gradient(900px 600px at 90% 110%, rgba(216, 177, 90, 0.08), transparent 55%),
-        var(--bg);
-      color: var(--ink);
-      font-family: var(--sans);
+      background: var(--app-bg);
+      color: var(--text);
+      font-family: var(--body);
+      font-size: 17px;
+      line-height: 1.6;
       min-height: 100vh;
       min-height: 100dvh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: clamp(1.5rem, 5vw, 4rem) 1.25rem 2.5rem;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
-    .wrap { width: 100%; max-width: 880px; }
+
+    /* ---- The night over Ravenswood Bluff -------------------------------------------------
+       Fixed to the viewport so the sky holds still while the page scrolls under it, exactly
+       like NightSky in the app. Stars are CSS circles (not SVG) so they stay round at every
+       viewport ratio, and they are seeded, so it is the same sky on every reload.
+       There is deliberately no skyline: a clocktower here stood in the middle of the screen
+       and cut through whatever content happened to scroll past it. */
+    .sky { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+    .sky-wash {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(70% 50% at 50% 4%, rgba(217, 164, 65, 0.09), transparent 70%),
+        radial-gradient(70% 50% at 12% 8%, rgba(58, 53, 80, 0.5), transparent 70%),
+        linear-gradient(160deg, #11131f 0%, #08090f 60%, #05060b 100%);
+    }
+    .star { position: absolute; border-radius: 50%; background: #f3ecdd; }
+
+    .vignette {
+      position: fixed; inset: 0; z-index: 1; pointer-events: none;
+      background: radial-gradient(120% 130% at 50% -10%, transparent 52%, rgba(0, 0, 0, 0.62) 100%);
+    }
+
+    /* ---- Page ---- */
+    .wrap {
+      position: relative; z-index: 2;
+      width: 100%; max-width: 720px; margin: 0 auto;
+      padding: clamp(2.5rem, 10vw, 4rem) 1.25rem clamp(3rem, 10vw, 4.5rem);
+    }
 
     /* ---- Hero ---- */
-    .hero { text-align: center; margin-bottom: clamp(2rem, 6vw, 3.5rem); }
+    .hero { text-align: center; }
     .crest {
-      width: clamp(96px, 22vw, 132px);
-      height: clamp(96px, 22vw, 132px);
-      border-radius: 26%;
-      margin: 0 auto 1.25rem;
-      display: block;
-      box-shadow: 0 0 0 1px var(--card-line), 0 18px 50px -18px rgba(122, 87, 196, 0.8);
+      width: clamp(88px, 20vw, 112px); height: clamp(88px, 20vw, 112px);
+      border-radius: 24%; display: block; margin: 0 auto 1.15rem;
+      box-shadow: 0 0 0 1px var(--line), 0 0 34px rgba(217, 164, 65, 0.22);
     }
+    /* The wordmark is STACKED — Blood / on the / Clocktower — the same three-line lockup the
+       app itself uses. Set on one line it either shrinks to nothing or wraps at whatever point
+       the viewport happens to choose, and neither reads as a title. */
     h1 {
-      font-family: var(--serif);
-      font-weight: 600;
-      font-size: clamp(2.4rem, 9vw, 3.8rem);
-      letter-spacing: 0.14em;
-      margin: 0 0 0.4rem;
-      text-transform: uppercase;
-      background: linear-gradient(180deg, #fff 0%, var(--accent-2) 120%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+      font-family: var(--deco); font-weight: 700;
+      margin: 0; text-transform: uppercase;
+      display: flex; flex-direction: column; align-items: center; line-height: 1.02;
+      background: linear-gradient(180deg, var(--bone) 0%, var(--gold) 125%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
     }
-    .tagline {
-      color: var(--muted);
-      font-family: var(--serif);
-      font-style: italic;
-      font-size: clamp(1rem, 3.4vw, 1.2rem);
-      margin: 0;
-      letter-spacing: 0.01em;
+    .wm-lg { font-size: clamp(1.7rem, 7.6vw, 2.7rem); letter-spacing: 0.07em; padding-left: 0.07em; }
+    .wm-sm {
+      font-family: var(--display); font-weight: 500;
+      font-size: clamp(0.62rem, 2.5vw, 0.86rem);
+      letter-spacing: 0.42em; padding-left: 0.42em;
+      margin: 0.34em 0 0.28em;
     }
-    .version { color: var(--faint); font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase; margin-top: 0.9rem; }
 
-    /* ---- Game invite banner (shown when ?game=CODE is present) ---- */
-    .invite {
-      text-align: center; max-width: 460px; margin: 0 auto clamp(1.6rem, 5vw, 2.6rem);
-      background: rgba(122, 87, 196, 0.10); border: 1px solid var(--card-line);
-      border-radius: 18px; padding: 1.4rem 1.3rem 1.5rem;
+    /* A hairline rule with a lozenge — the app's own divider. */
+    .rule {
+      display: flex; align-items: center; justify-content: center; gap: 0.75rem;
+      margin: clamp(2rem, 7vw, 2.8rem) auto; max-width: 400px;
     }
-    .invite-eyebrow { color: var(--muted); font-size: 0.76rem; letter-spacing: 0.16em; text-transform: uppercase; margin: 0 0 0.5rem; }
+    .rule::before, .rule::after {
+      content: ''; height: 1px; flex: 1;
+      background: linear-gradient(90deg, transparent, rgba(217, 164, 65, 0.35), transparent);
+    }
+    .rule span { color: var(--gold); font-size: 0.6rem; }
+
+    /* ---- The invite (only when ?game=CODE) --------------------------------------------
+       The CODE is the whole point of this screen for an invited player, so it is the
+       largest thing on it and carries no container of its own. */
+    .invite { text-align: center; margin: clamp(2rem, 7vw, 2.6rem) auto 0; max-width: 30em; }
+    .invite-eyebrow {
+      font-family: var(--display); color: var(--muted);
+      font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; margin: 0;
+    }
     .invite-code {
-      font-family: var(--serif); font-size: clamp(2rem, 9vw, 2.8rem); letter-spacing: 0.3em;
-      color: var(--gold); text-shadow: 0 0 18px rgba(216, 177, 90, 0.25); margin: 0 0 1.1rem; padding-left: 0.3em;
+      font-family: var(--display); font-weight: 700;
+      font-size: clamp(2.4rem, 12vw, 3.6rem);
+      letter-spacing: 0.26em; padding-left: 0.26em;
+      color: var(--gold-light);
+      text-shadow: 0 0 30px rgba(217, 164, 65, 0.4);
+      margin: 0.3rem 0 1.2rem;
     }
-    .invite-open { max-width: 320px; margin: 0 auto; }
-    .invite-help { color: var(--faint); font-size: 0.78rem; line-height: 1.5; margin: 0.85rem auto 0; max-width: 340px; }
+    .invite-open { max-width: 22rem; }
 
-    /* ---- Platform cards ---- */
-    .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
-    @media (max-width: 620px) { .cards { grid-template-columns: 1fr; } }
-
-    .card {
-      position: relative;
-      background: var(--card);
-      border: 1px solid var(--card-line);
-      border-radius: 18px;
-      padding: 1.6rem 1.4rem 1.7rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      backdrop-filter: blur(6px);
-      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    /* ---- Platform columns --------------------------------------------------------------
+       No cards. Two columns divided by a hairline; the panel appears only on the visitor's
+       own platform, which is the one piece of state worth drawing a boundary around. */
+    .platforms {
+      display: grid; grid-template-columns: 1fr 1px 1fr;
+      align-items: start; gap: clamp(0.9rem, 4vw, 2rem);
     }
-    .card.detected {
-      border-color: var(--accent-2);
-      box-shadow: 0 0 0 1px var(--accent-2), 0 22px 60px -28px rgba(122, 87, 196, 0.9);
+    .divider { align-self: stretch; background: linear-gradient(180deg, transparent, var(--line), transparent); }
+    @media (max-width: 600px) {
+      .platforms { grid-template-columns: 1fr; gap: 2.6rem; }
+      .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--line), transparent); }
+    }
+
+    .platform { text-align: center; padding: 1.1rem 0.6rem 1.2rem; border-radius: 14px; }
+    .platform.detected {
+      background: rgba(217, 164, 65, 0.05);
+      box-shadow: inset 0 0 0 1px var(--line);
     }
     .badge {
-      position: absolute; top: -0.7rem; left: 50%; transform: translateX(-50%);
-      background: var(--accent); color: #fff; font-size: 0.62rem; font-weight: 700;
-      letter-spacing: 0.16em; text-transform: uppercase; padding: 0.32rem 0.7rem;
-      border-radius: 999px; white-space: nowrap; display: none;
+      display: none; margin: 0 0 0.5rem;
+      font-family: var(--display); font-size: 0.6rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold);
     }
-    .card.detected .badge { display: block; }
+    .platform.detected .badge { display: block; }
+    .platform h2 {
+      font-family: var(--display); font-weight: 700;
+      font-size: clamp(1.05rem, 4vw, 1.2rem); letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--parchment); margin: 0 0 1rem;
+    }
 
-    .platform { font-family: var(--serif); font-size: 1.35rem; letter-spacing: 0.05em; margin: 0.2rem 0 0.2rem; }
-    .platform-sub { color: var(--faint); font-size: 0.82rem; margin: 0 0 1.15rem; min-height: 1.1em; }
-
+    /* The QR stays on a light ground — contrast is what makes it scan. Parchment, framed in
+       gold, so it reads as a page from the grimoire rather than a white sticker. */
     .qr-box {
-      background: #fff; border-radius: 12px; padding: 12px;
-      width: 168px; height: 168px; display: flex; align-items: center; justify-content: center;
-      margin-bottom: 1.15rem;
+      background: var(--bone); border-radius: 10px; padding: 11px;
+      width: 168px; height: 168px; margin: 0 auto 1.15rem;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 0 1px var(--gold-dark), 0 14px 34px rgba(0, 0, 0, 0.55);
     }
     .qr-box svg { width: 100%; height: 100%; display: block; }
     .qr-box.empty {
-      background: rgba(255,255,255,0.04); border: 1px dashed var(--card-line);
-      color: var(--faint); font-size: 0.78rem; line-height: 1.4; padding: 1rem;
+      background: rgba(243, 236, 221, 0.04); box-shadow: inset 0 0 0 1px var(--line);
+      color: var(--faint); font-family: var(--body); font-size: 0.82rem;
+      line-height: 1.45; padding: 1rem; text-align: center;
     }
 
     .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
-      width: 100%; padding: 0.9rem 1rem; border-radius: 12px; border: 0;
-      font-size: 1rem; font-weight: 700; letter-spacing: 0.02em; cursor: pointer;
-      text-decoration: none; transition: transform 0.12s, filter 0.2s;
-      background: linear-gradient(180deg, var(--accent-2), var(--accent));
-      color: #160f28;
+      display: flex; align-items: center; justify-content: center;
+      width: 100%; max-width: 15rem; margin: 0 auto;
+      padding: 0.82rem 1rem; border: 0; border-radius: 11px;
+      font-family: var(--display); font-weight: 700; font-size: 0.92rem;
+      letter-spacing: 0.09em; text-transform: uppercase; text-decoration: none;
+      color: var(--ink); cursor: pointer;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold) 55%, var(--gold-dark));
+      box-shadow: 0 10px 26px -12px rgba(217, 164, 65, 0.75);
+      transition: filter 0.2s, transform 0.12s;
     }
-    .btn:hover { filter: brightness(1.08); }
+    .btn:hover { filter: brightness(1.07); }
     .btn:active { transform: translateY(1px); }
     .btn[aria-disabled="true"] {
-      background: rgba(255,255,255,0.06); color: var(--faint); cursor: default;
-      pointer-events: none; box-shadow: inset 0 0 0 1px var(--card-line);
+      background: none; box-shadow: inset 0 0 0 1px var(--line);
+      color: var(--faint); pointer-events: none;
     }
-    .hint { color: var(--faint); font-size: 0.74rem; margin-top: 0.7rem; line-height: 1.4; }
 
-    /* ---- Footer ---- */
-    footer {
-      margin-top: clamp(2.5rem, 7vw, 4rem); text-align: center; max-width: 560px;
-      color: var(--faint); font-size: 0.78rem; line-height: 1.6;
+    @media (prefers-reduced-motion: no-preference) {
+      .crest, h1 { animation: rise 0.7s ease-out both; }
+      h1 { animation-delay: 0.05s; }
     }
-    footer a { color: var(--muted); }
-    .disclaimer { margin-top: 0.9rem; color: var(--faint); opacity: 0.85; font-size: 0.72rem; }
-    .sep { color: var(--card-line); margin: 0 0.5rem; }
+    @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
   </style>
 </head>
 <body>
+  <div class="sky" aria-hidden="true">
+    <div class="sky-wash"></div>
+    <div id="stars"></div>
+  </div>
+  <div class="vignette" aria-hidden="true"></div>
+
   <div class="wrap">
     <header class="hero">
       <img class="crest" src="assets/app-icon.png" alt="" />
-      <h1 id="app-name">BOTC</h1>
-      <p class="tagline" id="tagline">A Storyteller companion for Blood on the Clocktower</p>
-      <div class="version" id="version"></div>
+      <h1>
+        <span class="wm-lg">Blood</span>
+        <span class="wm-sm">on the</span>
+        <span class="wm-lg">Clocktower</span>
+      </h1>
     </header>
 
     <section class="invite" id="invite" hidden>
       <p class="invite-eyebrow">You're invited to a game</p>
       <div class="invite-code" id="invite-code"></div>
-      <a class="btn invite-open" id="invite-open" href="#">Open in the BOTC app</a>
-      <p class="invite-help">
-        Already installed? Tap above. New here? Install below, then open BOTC and enter this code.
-      </p>
+      <a class="btn invite-open" id="invite-open" href="#">Open in the app</a>
     </section>
 
-    <main class="cards">
-      <section class="card" id="card-ios">
-        <span class="badge">Your device</span>
-        <h2 class="platform">iPhone &amp; iPad</h2>
-        <p class="platform-sub">via the App Store</p>
+    <div class="rule" aria-hidden="true"><span>◆</span></div>
+
+    <main class="platforms">
+      <section class="platform" id="card-ios">
+        <p class="badge">Your device</p>
+        <h2>iPhone &amp; iPad</h2>
         <div class="qr-box" id="qr-ios"></div>
         <a class="btn" id="btn-ios" href="#">Open in App Store</a>
-        <p class="hint" id="hint-ios">On a computer? Scan the code with your iPhone camera.</p>
       </section>
 
-      <section class="card" id="card-android">
-        <span class="badge">Your device</span>
-        <h2 class="platform">Android</h2>
-        <p class="platform-sub">direct download (.apk)</p>
+      <div class="divider" aria-hidden="true"></div>
+
+      <section class="platform" id="card-android">
+        <p class="badge">Your device</p>
+        <h2>Android</h2>
         <div class="qr-box" id="qr-android"></div>
         <a class="btn" id="btn-android" href="#">Download APK</a>
-        <p class="hint" id="hint-android">After downloading, tap the file and allow install from this source.</p>
       </section>
     </main>
-
-    <footer>
-      Trouble installing? Email <a id="support" href="#">support</a>.
-      <span class="sep">·</span>
-      <a href="privacy.html">Privacy Policy</a>
-      <p class="disclaimer">
-        BOTC is an unofficial fan-made companion tool. It is not affiliated with,
-        endorsed by, or sponsored by Steven Medway or The Pandemonium Institute.
-        Blood on the Clocktower is a trademark of Steven Medway.
-      </p>
-    </footer>
   </div>
 
   <script src="vendor/qrcode.min.js"></script>
@@ -212,16 +254,32 @@
     (function () {
       var cfg = window.BOTC_CONFIG || {};
 
-      // ---- Header content from config ----
-      if (cfg.appName) document.getElementById('app-name').textContent = cfg.appName;
-      if (cfg.tagline) document.getElementById('tagline').textContent = cfg.tagline;
-      document.getElementById('version').textContent = cfg.version ? 'Version ' + cfg.version : '';
-      var support = document.getElementById('support');
-      if (cfg.supportEmail) {
-        support.href = 'mailto:' + cfg.supportEmail + '?subject=' +
-          encodeURIComponent((cfg.appName || 'BOTC') + ' install help');
-        support.textContent = cfg.supportEmail;
-      }
+      // ---- Starfield ----------------------------------------------------------------
+      // Seeded (xorshift), never Math.random: the sky must be the same sky on every load
+      // rather than reshuffling itself. CSS circles, so they stay round at any viewport
+      // ratio — an SVG stretched to the window smears every star into an ellipse.
+      (function stars() {
+        var host = document.getElementById('stars');
+        if (!host) return;
+        var seed = 0x1a2b3c4d;
+        function rnd() {
+          seed ^= seed << 13; seed ^= seed >>> 17; seed ^= seed << 5;
+          return ((seed >>> 0) % 100000) / 100000;
+        }
+        var frag = document.createDocumentFragment();
+        for (var i = 0; i < 90; i++) {
+          var s = document.createElement('div');
+          var size = rnd() < 0.86 ? 1 : 2;
+          s.className = 'star';
+          s.style.width = size + 'px';
+          s.style.height = size + 'px';
+          s.style.left = (rnd() * 100).toFixed(3) + '%';
+          s.style.top = (rnd() * 100).toFixed(3) + '%';
+          s.style.opacity = (0.2 + rnd() * 0.55).toFixed(2);
+          frag.appendChild(s);
+        }
+        host.appendChild(frag);
+      })();
 
       // ---- Game invite: ?game=CODE (the QR people scan with a normal camera) ----
       var gameCode = null;
@@ -231,7 +289,7 @@
         document.getElementById('invite-code').textContent = gameCode;
         document.getElementById('invite-open').href = 'botc://join?game=' + encodeURIComponent(gameCode);
         document.getElementById('invite').hidden = false;
-        document.title = 'Join game ' + gameCode + ' — ' + (cfg.appName || 'BOTC');
+        document.title = 'Join game ' + gameCode + ' — ' + (cfg.appName || 'Blood on the Clocktower');
       }
 
       // ---- QR rendering (qrcode-generator, MIT, vendored) ----
