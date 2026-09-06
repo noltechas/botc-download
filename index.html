@@ -23,15 +23,13 @@
     :root {
       --app-bg: #08090f;
       --ink: #120d0a;
-      --parchment: #e8dcc0;
       --bone: #f3ecdd;
       --text: #f3ecdd;
       --muted: #9a958c;
-      --faint: #6b6660;
       --gold: #d9a441;
       --gold-light: #f1cd76;
       --gold-dark: #a87a28;
-      --line: rgba(217, 164, 65, 0.22);
+      --line: rgba(217, 164, 65, 0.28);
       --display: 'Cinzel', 'Times New Roman', serif;
       --deco: 'Cinzel Decorative', 'Cinzel', serif;
       --body: 'IM Fell English', Georgia, serif;
@@ -48,6 +46,7 @@
       line-height: 1.6;
       min-height: 100vh;
       min-height: 100dvh;
+      display: flex; align-items: center; justify-content: center;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
@@ -55,9 +54,7 @@
     /* ---- The night over Ravenswood Bluff -------------------------------------------------
        Fixed to the viewport so the sky holds still while the page scrolls under it, exactly
        like NightSky in the app. Stars are CSS circles (not SVG) so they stay round at every
-       viewport ratio, and they are seeded, so it is the same sky on every reload.
-       There is deliberately no skyline: a clocktower here stood in the middle of the screen
-       and cut through whatever content happened to scroll past it. */
+       viewport ratio, and they are seeded, so it is the same sky on every reload. */
     .sky { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
     .sky-wash {
       position: absolute; inset: 0;
@@ -73,20 +70,22 @@
       background: radial-gradient(120% 130% at 50% -10%, transparent 52%, rgba(0, 0, 0, 0.62) 100%);
     }
 
-    /* ---- Page ---- */
+    /* ---- Page ----
+       The whole page is one centred column: the crest, the wordmark, and the actions. There
+       is no QR here on purpose — everyone who reaches this page arrived by scanning one. */
     .wrap {
       position: relative; z-index: 2;
-      width: 100%; max-width: 720px; margin: 0 auto;
-      padding: clamp(2.5rem, 10vw, 4rem) 1.25rem clamp(3rem, 10vw, 4.5rem);
+      width: 100%; max-width: 26rem; margin: 0 auto;
+      padding: clamp(2.5rem, 9vw, 4rem) 1.4rem clamp(2.5rem, 9vw, 4rem);
+      text-align: center;
     }
 
-    /* ---- Hero ---- */
-    .hero { text-align: center; }
     .crest {
-      width: clamp(88px, 20vw, 112px); height: clamp(88px, 20vw, 112px);
-      border-radius: 24%; display: block; margin: 0 auto 1.15rem;
+      width: clamp(92px, 22vw, 118px); height: clamp(92px, 22vw, 118px);
+      border-radius: 24%; display: block; margin: 0 auto 1.25rem;
       box-shadow: 0 0 0 1px var(--line), 0 0 34px rgba(217, 164, 65, 0.22);
     }
+
     /* The wordmark is STACKED — Blood / on the / Clocktower — the same three-line lockup the
        app itself uses. Set on one line it either shrinks to nothing or wraps at whatever point
        the viewport happens to choose, and neither reads as a title. */
@@ -97,10 +96,10 @@
       background: linear-gradient(180deg, var(--bone) 0%, var(--gold) 125%);
       -webkit-background-clip: text; background-clip: text; color: transparent;
     }
-    .wm-lg { font-size: clamp(1.7rem, 7.6vw, 2.7rem); letter-spacing: 0.07em; padding-left: 0.07em; }
+    .wm-lg { font-size: clamp(1.7rem, 7.6vw, 2.5rem); letter-spacing: 0.07em; padding-left: 0.07em; }
     .wm-sm {
       font-family: var(--display); font-weight: 500;
-      font-size: clamp(0.62rem, 2.5vw, 0.86rem);
+      font-size: clamp(0.62rem, 2.5vw, 0.82rem);
       letter-spacing: 0.42em; padding-left: 0.42em;
       margin: 0.34em 0 0.28em;
     }
@@ -108,7 +107,7 @@
     /* A hairline rule with a lozenge — the app's own divider. */
     .rule {
       display: flex; align-items: center; justify-content: center; gap: 0.75rem;
-      margin: clamp(2rem, 7vw, 2.8rem) auto; max-width: 400px;
+      margin: clamp(1.8rem, 6vw, 2.4rem) auto;
     }
     .rule::before, .rule::after {
       content: ''; height: 1px; flex: 1;
@@ -116,86 +115,60 @@
     }
     .rule span { color: var(--gold); font-size: 0.6rem; }
 
-    /* ---- The invite (only when ?game=CODE) --------------------------------------------
-       The CODE is the whole point of this screen for an invited player, so it is the
-       largest thing on it and carries no container of its own. */
-    .invite { text-align: center; margin: clamp(2rem, 7vw, 2.6rem) auto 0; max-width: 30em; }
-    .invite-eyebrow {
-      font-family: var(--display); color: var(--muted);
-      font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; margin: 0;
-    }
-    .invite-code {
-      font-family: var(--display); font-weight: 700;
-      font-size: clamp(2.4rem, 12vw, 3.6rem);
-      letter-spacing: 0.26em; padding-left: 0.26em;
-      color: var(--gold-light);
-      text-shadow: 0 0 30px rgba(217, 164, 65, 0.4);
-      margin: 0.3rem 0 1.2rem;
-    }
-    .invite-open { max-width: 22rem; }
-
-    /* ---- Platform columns --------------------------------------------------------------
-       No cards. Two columns divided by a hairline; the panel appears only on the visitor's
-       own platform, which is the one piece of state worth drawing a boundary around. */
-    .platforms {
-      display: grid; grid-template-columns: 1fr 1px 1fr;
-      align-items: start; gap: clamp(0.9rem, 4vw, 2rem);
-    }
-    .divider { align-self: stretch; background: linear-gradient(180deg, transparent, var(--line), transparent); }
-    @media (max-width: 600px) {
-      .platforms { grid-template-columns: 1fr; gap: 2.6rem; }
-      .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--line), transparent); }
-    }
-
-    .platform { text-align: center; padding: 1.1rem 0.6rem 1.2rem; border-radius: 14px; }
-    .platform.detected {
-      background: rgba(217, 164, 65, 0.05);
-      box-shadow: inset 0 0 0 1px var(--line);
-    }
-    .badge {
-      display: none; margin: 0 0 0.5rem;
-      font-family: var(--display); font-size: 0.6rem; font-weight: 700;
-      letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold);
-    }
-    .platform.detected .badge { display: block; }
-    .platform h2 {
-      font-family: var(--display); font-weight: 700;
-      font-size: clamp(1.05rem, 4vw, 1.2rem); letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--parchment); margin: 0 0 1rem;
-    }
-
-    /* The QR stays on a light ground — contrast is what makes it scan. Parchment, framed in
-       gold, so it reads as a page from the grimoire rather than a white sticker. */
-    .qr-box {
-      background: var(--bone); border-radius: 10px; padding: 11px;
-      width: 168px; height: 168px; margin: 0 auto 1.15rem;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 0 0 1px var(--gold-dark), 0 14px 34px rgba(0, 0, 0, 0.55);
-    }
-    .qr-box svg { width: 100%; height: 100%; display: block; }
-    .qr-box.empty {
-      background: rgba(243, 236, 221, 0.04); box-shadow: inset 0 0 0 1px var(--line);
-      color: var(--faint); font-family: var(--body); font-size: 0.82rem;
-      line-height: 1.45; padding: 1rem; text-align: center;
-    }
+    /* ---- Actions ------------------------------------------------------------------------
+       A single stack. The visitor's own platform is ordered first and takes the solid gold
+       plate; the other store stays available as a hairline ghost, so there is one obvious
+       thing to press rather than two competing golds. */
+    .actions { display: flex; flex-direction: column; gap: 0.85rem; }
 
     .btn {
-      display: flex; align-items: center; justify-content: center;
-      width: 100%; max-width: 15rem; margin: 0 auto;
-      padding: 0.82rem 1rem; border: 0; border-radius: 11px;
-      font-family: var(--display); font-weight: 700; font-size: 0.92rem;
+      position: relative;
+      display: flex; align-items: center; justify-content: center; gap: 0.7rem;
+      width: 100%; padding: 1rem 1.15rem;
+      border: 0; border-radius: 13px;
+      font-family: var(--display); font-weight: 700;
+      font-size: clamp(0.86rem, 3.4vw, 0.98rem);
       letter-spacing: 0.09em; text-transform: uppercase; text-decoration: none;
-      color: var(--ink); cursor: pointer;
-      background: linear-gradient(135deg, var(--gold-light), var(--gold) 55%, var(--gold-dark));
-      box-shadow: 0 10px 26px -12px rgba(217, 164, 65, 0.75);
-      transition: filter 0.2s, transform 0.12s;
+      cursor: pointer; overflow: hidden;
+      transition: filter 0.2s, transform 0.12s, box-shadow 0.2s, border-color 0.2s;
     }
-    .btn:hover { filter: brightness(1.07); }
+    .btn svg { width: 1.25em; height: 1.25em; flex: none; fill: currentColor; }
     .btn:active { transform: translateY(1px); }
-    .btn[aria-disabled="true"] {
-      background: none; box-shadow: inset 0 0 0 1px var(--line);
-      color: var(--faint); pointer-events: none;
+    /* `display: flex` above beats the UA stylesheet's `[hidden] { display: none }`, so without
+       this the deep-link button shows on every visit — including the ones with no game code,
+       where it links nowhere. */
+    .btn[hidden] { display: none; }
+
+    /* Solid gold plate, with a struck highlight along its top edge so it reads as pressed
+       metal rather than a flat fill. */
+    .btn.is-solid {
+      color: var(--ink);
+      background: linear-gradient(140deg, var(--gold-light), var(--gold) 52%, var(--gold-dark));
+      box-shadow: 0 12px 30px -14px rgba(217, 164, 65, 0.85), 0 0 0 1px rgba(255, 236, 190, 0.3);
     }
+    .btn.is-solid::before {
+      content: ''; position: absolute; inset: 0 0 auto; height: 45%;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.34), transparent);
+      pointer-events: none;
+    }
+    .btn.is-solid:hover { filter: brightness(1.07); }
+
+    .btn.is-ghost {
+      color: var(--gold-light);
+      background: rgba(217, 164, 65, 0.045);
+      box-shadow: inset 0 0 0 1px var(--line);
+    }
+    .btn.is-ghost:hover {
+      background: rgba(217, 164, 65, 0.1);
+      box-shadow: inset 0 0 0 1px rgba(217, 164, 65, 0.5);
+    }
+
+    .btn[aria-disabled="true"] {
+      color: var(--muted); background: none;
+      box-shadow: inset 0 0 0 1px rgba(154, 149, 140, 0.25);
+      pointer-events: none;
+    }
+    .btn[aria-disabled="true"]::before { display: none; }
 
     @media (prefers-reduced-motion: no-preference) {
       .crest, h1 { animation: rise 0.7s ease-out both; }
@@ -212,43 +185,33 @@
   <div class="vignette" aria-hidden="true"></div>
 
   <div class="wrap">
-    <header class="hero">
-      <img class="crest" src="assets/app-icon.png" alt="" />
-      <h1>
-        <span class="wm-lg">Blood</span>
-        <span class="wm-sm">on the</span>
-        <span class="wm-lg">Clocktower</span>
-      </h1>
-    </header>
-
-    <section class="invite" id="invite" hidden>
-      <p class="invite-eyebrow">You're invited to a game</p>
-      <div class="invite-code" id="invite-code"></div>
-      <a class="btn invite-open" id="invite-open" href="#">Open in the app</a>
-    </section>
+    <img class="crest" src="assets/app-icon.png" alt="" />
+    <h1>
+      <span class="wm-lg">Blood</span>
+      <span class="wm-sm">on the</span>
+      <span class="wm-lg">Clocktower</span>
+    </h1>
 
     <div class="rule" aria-hidden="true"><span>◆</span></div>
 
-    <main class="platforms">
-      <section class="platform" id="card-ios">
-        <p class="badge">Your device</p>
-        <h2>iPhone &amp; iPad</h2>
-        <div class="qr-box" id="qr-ios"></div>
-        <a class="btn" id="btn-ios" href="#">Open in App Store</a>
-      </section>
+    <div class="actions">
+      <!-- Only when the page was opened with ?game=CODE. The code itself is not printed:
+           the deep link already carries it, and this page is reached by scanning the game's
+           own QR, so the player never has to read or retype it. -->
+      <a class="btn is-solid" id="invite-open" href="#" hidden>Open in the app</a>
 
-      <div class="divider" aria-hidden="true"></div>
+      <a class="btn" id="btn-ios" href="#">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.42 2.2-1.12 3.02-.85.99-2.24 1.76-3.38 1.67-.14-1.1.4-2.26 1.06-3.03.75-.87 2.06-1.55 3.44-1.66zM20.9 17.4c-.55 1.27-.81 1.84-1.52 2.96-.99 1.56-2.39 3.5-4.12 3.51-1.54.02-1.94-1-4.03-.99-2.09.01-2.53 1.01-4.07.99-1.73-.02-3.05-1.77-4.04-3.33C.35 16.2-.02 11.1 1.66 8.44c1.2-1.9 3.09-3.01 4.87-3.01 1.81 0 2.95 1 4.45 1 1.45 0 2.34-1 4.43-1 1.58 0 3.26.86 4.45 2.35-3.91 2.14-3.27 7.72 1.04 9.62z"/></svg>
+        <span>Open in App Store</span>
+      </a>
 
-      <section class="platform" id="card-android">
-        <p class="badge">Your device</p>
-        <h2>Android</h2>
-        <div class="qr-box" id="qr-android"></div>
-        <a class="btn" id="btn-android" href="#">Download APK</a>
-      </section>
-    </main>
+      <a class="btn" id="btn-android" href="#">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18c0 .55.45 1 1 1h1v3.5a1.5 1.5 0 0 0 3 0V19h2v3.5a1.5 1.5 0 0 0 3 0V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8A1.5 1.5 0 0 0 2 9.5v7a1.5 1.5 0 0 0 3 0v-7A1.5 1.5 0 0 0 3.5 8zm17 0A1.5 1.5 0 0 0 19 9.5v7a1.5 1.5 0 0 0 3 0v-7A1.5 1.5 0 0 0 20.5 8zm-4.97-5.84 1.3-1.3a.5.5 0 0 0-.71-.71l-1.48 1.48A6.9 6.9 0 0 0 12 1c-.96 0-1.86.23-2.66.63L7.85.15a.5.5 0 1 0-.71.71l1.31 1.31A5.9 5.9 0 0 0 6 7h12a5.9 5.9 0 0 0-2.47-4.84zM10 5H9V4h1v1zm5 0h-1V4h1v1z"/></svg>
+        <span>Download for Android</span>
+      </a>
+    </div>
   </div>
 
-  <script src="vendor/qrcode.min.js"></script>
   <script src="config.js"></script>
   <script>
     (function () {
@@ -286,65 +249,49 @@
       try { gameCode = new URLSearchParams(window.location.search).get('game'); } catch (e) {}
       if (gameCode) gameCode = gameCode.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8);
       if (gameCode) {
-        document.getElementById('invite-code').textContent = gameCode;
-        document.getElementById('invite-open').href = 'botc://join?game=' + encodeURIComponent(gameCode);
-        document.getElementById('invite').hidden = false;
+        var open = document.getElementById('invite-open');
+        open.href = 'botc://join?game=' + encodeURIComponent(gameCode);
+        open.hidden = false;
         document.title = 'Join game ' + gameCode + ' — ' + (cfg.appName || 'Blood on the Clocktower');
       }
 
-      // ---- QR rendering (qrcode-generator, MIT, vendored) ----
-      function renderQR(el, text) {
-        try {
-          var qr = qrcode(0, 'M');
-          qr.addData(text);
-          qr.make();
-          el.innerHTML = qr.createSvgTag({ cellSize: 6, margin: 1, scalable: true });
-        } catch (e) {
-          el.classList.add('empty');
-          el.textContent = 'Could not render QR.';
-        }
-      }
-
-      function setup(opts) {
-        var card = document.getElementById(opts.cardId);
-        var qrEl = document.getElementById(opts.qrId);
-        var btn = document.getElementById(opts.btnId);
-        var url = (opts.url || '').trim();
-
-        if (url) {
-          renderQR(qrEl, url);
-          btn.href = url;
-          if (opts.download) btn.setAttribute('download', '');
-          // open App Store / external links in a new tab from desktop
-          if (!opts.download) { btn.target = '_blank'; btn.rel = 'noopener'; }
-        } else {
-          qrEl.classList.add('empty');
-          qrEl.textContent = opts.comingSoon;
-          btn.textContent = 'Coming soon';
+      function setup(btn, url, isDownload, soon) {
+        url = (url || '').trim();
+        if (!url) {
+          btn.querySelector('span').textContent = soon;
           btn.setAttribute('aria-disabled', 'true');
           btn.href = '#';
+          return false;
         }
-        return card;
+        btn.href = url;
+        if (isDownload) btn.setAttribute('download', '');
+        else { btn.target = '_blank'; btn.rel = 'noopener'; }
+        return true;
       }
 
-      var iosCard = setup({
-        cardId: 'card-ios', qrId: 'qr-ios', btnId: 'btn-ios',
-        url: cfg.iosUrl, download: false,
-        comingSoon: 'iOS link goes live once the app clears App Review.'
-      });
-      var androidCard = setup({
-        cardId: 'card-android', qrId: 'qr-android', btnId: 'btn-android',
-        url: cfg.androidUrl, download: true,
-        comingSoon: 'Android build is on the way.'
-      });
+      var ios = document.getElementById('btn-ios');
+      var android = document.getElementById('btn-android');
+      var iosLive = setup(ios, cfg.iosUrl, false, 'App Store coming soon');
+      var androidLive = setup(android, cfg.androidUrl, true, 'Android coming soon');
 
-      // ---- Highlight the visitor's platform ----
+      // ---- Lead with the visitor's own platform ----
       var ua = navigator.userAgent || '';
       var isIOS = /iPad|iPhone|iPod/.test(ua) ||
         (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
       var isAndroid = /android/i.test(ua);
-      if (isIOS) iosCard.classList.add('detected');
-      else if (isAndroid) androidCard.classList.add('detected');
+
+      function dress(primary, secondary) {
+        if (!primary.hasAttribute('aria-disabled')) primary.classList.add('is-solid');
+        if (!secondary.hasAttribute('aria-disabled')) secondary.classList.add('is-ghost');
+        primary.parentNode.insertBefore(primary, secondary);
+      }
+      if (isIOS) dress(ios, android);
+      else if (isAndroid) dress(android, ios);
+      else {
+        // No idea what this is (a desktop): give both equal weight.
+        if (iosLive) ios.classList.add('is-solid');
+        if (androidLive) android.classList.add('is-solid');
+      }
     })();
   </script>
 </body>
